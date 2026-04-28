@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Shadows+Into+Light+Two&display=swap');
+@import "tailwindcss";
+
+
+@theme{
+    --font-outfit: "Outfit", sans-serif;
+    --default-font-family: "Outfit", sans-serif;
+    --font-shadowsIntoLightTwo: "Shadows Into Light Two", cursive;
+
+}
