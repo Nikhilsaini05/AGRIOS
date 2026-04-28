@@ -16,7 +16,7 @@ export default function HealthFoodHome() {
 
     useEffect(()=> {
         initialize();
-    })
+    },[]);
 
 
     // Layout Outlet

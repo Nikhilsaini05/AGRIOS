@@ -1,3 +1,5 @@
+import LoginPageBGImage from "/Images/adminImages/LoginPage.jpg"
+
 import { useState } from "react";
 import { supabase } from "../../Backend/supabase_client";
 import { UserData } from "../../Controllers/AuthController";
@@ -10,9 +12,9 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const {setUserSession, sessionToken, saveUserProfile} = UserData();
+    const { setUserSession, saveUserProfile } = UserData();
     const navigate = useNavigate();
-    
+
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -35,59 +37,64 @@ export default function LoginPage() {
     }
 
     return (
-        <main className="py-6 flex justify-center items-center flex-col">
-            <h1 className="text-[48px] font-semibold">Welcome Back</h1>
-            <p className="font-semibold mb-4 text-[14px]">Welcome back! Please enter your details.</p>
-            
-            <form onSubmit={handleLogin} className="bg-gray-200 px-10 py-4 w-150 rounded-xl">
-                <div className="flex flex-col gap-2">
-                    <p className="text-[24px] text-left">Email</p>
-                    <input 
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)} 
-                        className="w-full text-[#878680] bg-white rounded-2xl px-4 py-2 mb-4" 
-                        required
-                    />
+        <section className="bg-cover w-full h-screen"
+            style={{
+                backgroundImage: `url(${LoginPageBGImage})`,
+            }}>
+            <main className="py-28 flex justify-center items-center flex-row">
+
+                <div className="bg-[#FFFFFF5D]  w-[300px] h-[400px] rounded-l-xl py-28">
+                    <h1 className="text-[30px] font-semibold text-white mb-4">Welcome Admin!</h1>
+                    <p className="text-[16px] text-white">Manage products, orders, and <br /> customers from your admin panel.</p>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                    <p className="text-[24px] text-left">Password:</p>
-                    <input 
-                        type="password"
-                        placeholder="********"
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        className="w-full text-[#878680] bg-white rounded-2xl px-4 py-2 mb-4" 
-                        required
-                    />
-                </div>
+                <form onSubmit={handleLogin} className="bg-[#FFFFFF30] px-10 py-4 w-[600px] h-[400px] rounded-r-xl">
+                    <div className="flex flex-col gap-4 ">
+                        <h1 className="text-[40px] font-bold">Sign in</h1>
+                        <div className="bg-[#FFFFFF] w-full text-[#7D7D7D] text-[20px] text-left  rounded-3xl px-8 py-4">
+                            <input
+                                type="text"
+                                placeholder="Enter Your Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="bg-transparent outline-none border-none"
+                                required
+                            />
+                        </div>
 
-                <div className="flex flex-row justify-between mb-4">
-                    <div className="flex flex-row gap-2">
-                        <input type="checkbox" /> 
-                        <p className="font-semibold">Remember password</p>
+                        <div className="bg-[#FFFFFF] w-full text-[#7D7D7D] text-[20px] text-left  rounded-3xl px-8 py-4">
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="bg-transparent outline-none border-none"
+                                required
+                            />
+                        </div>
                     </div>
-                    <span className="font-semibold cursor-pointer">Forgot Password</span>
-                </div>
 
-                <div className="flex flex-col gap-2">
-                    <button 
-                        type="submit" 
-                        disabled={loading}
-                        className="bg-[#EEC044] text-white px-10 py-3 mb-4 rounded-2xl font-bold text-[18px] hover:bg-[#d9a93d] transition-all shadow-lg disabled:opacity-50"
-                    > 
-                        {loading ? "Signing in..." : "Sign in"}
-                    </button>
-                    <button type="button" className="bg-white px-10 py-3 mb-4 rounded-2xl font-bold text-[18px] shadow-lg">
-                        Sign in with Google
-                    </button>
-                </div>
-                <p>Don't have an account? <span className="text-blue-600 cursor-pointer">Sign up for free!</span></p>
-            </form>
+                    <div className="flex flex-row justify-between mb-4">
+                        <div className="flex flex-row gap-2 pt-4 pl-2">
+                            <input type="checkbox" />
+                            <p className="font-semibold ">Remember password</p>
+                        </div>
+                    </div>
 
-            <p>{sessionToken ?? "Not Available"}</p>
-        </main>
+                    <div className="flex flex-col gap-2">
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="bg-[#5F0D24] text-white px-10 py-3 mb-4 rounded-2xl font-bold text-[18px] hover:bg-[#7D1230] transition-all shadow-lg disabled:opacity-50"
+                        >
+                            {loading ? "Continue in..." : "Continue"}
+                        </button>
+
+                    </div>
+                    <p className="">Forget Password ?</p>
+                </form>
+
+            </main>
+        </section>
     );
 }
