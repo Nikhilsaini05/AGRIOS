@@ -8,7 +8,7 @@ export default function SupaData() {
     useEffect(() => {
         const fetchSupa = async () => {
             const { data, error } = await supabase
-                .from('ProductData')
+                .from('FooterData')
                 .select('*'); 
 
             if (error) {
@@ -32,13 +32,13 @@ export default function SupaData() {
             
             {tableData && (
                 <div>
-                    {tableData.map((product) => (
+                    {/* {tableData.map((product) => (
                         <div key={product.id || product.Name}> 
-                            <p><strong>Name:</strong> {product.Name}</p>
+                            <p><strong>Name:</strong> {product.Number}</p>
                             <p><strong>Type:</strong> {product.type}</p>
                             <p><strong>Date:</strong> {product.Date}</p>
                         </div>
-                    ))}
+                    ))} */}
                 </div>
             )}
         </div>

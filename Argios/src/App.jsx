@@ -24,51 +24,34 @@ function App() {
       <Routes>
         <Route path={RouteServices.home} element={
           <PublicRoute>
-<PublicLayout/>
+            <PublicLayout />
           </PublicRoute>
-          }>
-        <Route index element={<HomeMain/>}></Route>
-        <Route path={RouteServices.about} element={<AboutMain />}></Route>
-        <Route path={RouteServices.service} element={<ServicesMain />}></Route>
-        <Route path={RouteServices.project} element={<ProjectMain />}>
-        </Route> 
-        <Route path={`${RouteServices.projectDetails}/:id`} element={<HealthFoodMain />}></Route> 
-        <Route path={RouteServices.news} element={<NewsMain />}></Route> 
-        <Route path={RouteServices.shop} element={<ShopMain/>}></Route> 
-        <Route path={RouteServices.contact} element={<ContactMain />}></Route>
+        }>
+
+          <Route index element={<HomeMain />}></Route>
+          <Route path={RouteServices.about} element={<AboutMain />}></Route>
+          <Route path={RouteServices.service} element={<ServicesMain />}></Route>
+          <Route path={RouteServices.project} element={<ProjectMain />}>
+          </Route>
+          <Route path={`${RouteServices.projectDetails}/:id`} element={<HealthFoodMain />}></Route>
+          <Route path={RouteServices.news} element={<NewsMain />}></Route>
+          <Route path={RouteServices.shop} element={<ShopMain />}></Route>
+          <Route path={RouteServices.contact} element={<ContactMain />}></Route>
 
         </Route>
         <Route path={RouteServices.admin} element={<AdminMain />}></Route>
         <Route path={RouteServices.adminDashboard} element={<AdminRoute>
-          <AdminDashboard/>
+          <AdminDashboard />
         </AdminRoute>}>
 
-        
-          
+
+
         </Route>
-
-
-        {/* <Route path={RouteServices.home} element={<HomeMain />}></Route> */}
         
-
-        {/* <Route path={RouteServices.cart} element={<P3 />}>
-          <Route path={`${RouteServices.cart}/${RouteServices.customerDetails}`} element={<R0 />}></Route>
-
-        </Route> */}
       </Routes>
     </>
   )
 }
 
-
-{/* <ROUTE>
-
-  <Route to={"/"} component ={<Homepage/>}>
-  </Route>
-  <Route to={"/about"} component ={<Aboutus/>}>
-  </Route>
-  <Route to={"/about"} component ={<Aboutus/>}>
-  </Route>
-</ROUTE> */}
 
 export default App

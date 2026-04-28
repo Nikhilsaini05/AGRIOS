@@ -1,8 +1,46 @@
+import { useEffect, useState } from 'react';
+import { supabase } from '../../Backend/supabase_client';
 
 export default function Footer() {
+    const [footerData, setFooterData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+    const fetchFooterData = async () => {
+        try {
+            // Remove the extra quotes, just use the plain string
+            const { data, error } = await supabase
+                .from('FooterData') 
+                .select('*');
+
+            if (error) throw error;
+
+            if (data && data.length > 0) {
+                console.log("Footer Data Received:", data[0]);
+                setFooterData(data[0]);
+            }
+        } catch (error) {
+            console.error('Error fetching Supabase data:', error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchFooterData();
+}, []);
+
+const formatDate = (dateString) => {
+        if (!dateString) return "Loading...";
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    };
+
     return (
         <footer className="w-full bg-[#24231D] py-16 px-6 md:px-12 lg:px-20 text-white font-sans">
-
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
 
                 {/* Box 1: Logo & Socials */}
@@ -12,7 +50,6 @@ export default function Footer() {
                         There are many variations of passages of lorem ipsum available, but the majority suffered.
                     </p>
                     <div className="flex gap-3">
-
                         {['twitter', 'facebook', 'pinterest', 'instagram'].map((social) => (
                             <div key={social} className="h-10 w-10 bg-[#1F1E17] hover:bg-[#4BAF47] transition-colors rounded-full flex items-center justify-center cursor-pointer">
                                 <img src={`/Images/F-${social[0].toUpperCase()}.png`} alt={social} className="h-10" />
@@ -23,7 +60,7 @@ export default function Footer() {
 
                 {/* Box 2: Explore */}
                 <div>
-                    <h2 className="text-xl text-left  font-bold mb-4 relative pb-2">
+                    <h2 className="text-xl text-left font-bold mb-4 relative pb-2">
                         Explore
                         <span className="absolute bottom-0 left-0 w-12 h-1 bg-[#4BAF47]"></span>
                     </h2>
@@ -43,50 +80,63 @@ export default function Footer() {
                         News
                         <span className="absolute bottom-0 left-0 w-12 h-1 bg-[#4BAF47]"></span>
                     </h2>
-                    <div className="mt-6 space-y-6 text-left" >
-                        <div className="">
-                            <p className="font-semibold  cursor-pointer transition-colors">Bringing Food Production <br />
-                                Back To Cities</p>
-                            <span className="text-[#EEC044] text-sm">July 5, 2022</span>
+                    <div className="mt-6 space-y-6 text-left">
+                        <div>
+                            <p className="font-semibold cursor-pointer hover:text-[#4BAF47] transition-colors">
+                                Bringing Food Production <br /> Back To Cities
+                            </p>
+                            {/* Dynamic Date 1 */}
+                            <span className="text-[#EEC044] text-sm">
+                                {loading ? "Loading..." : formatDate(footerData?.Date)}
+                            </span>
                         </div>
                         <div>
-                            <p className="font-semibold cursor-pointer transition-colors">The Future of Farming, <br />
-                                Smart Irrigation Solutions</p>
-                            <span className="text-[#EEC044] text-sm">July 5, 2022</span>
+                            <p className="font-semibold cursor-pointer hover:text-[#4BAF47] transition-colors">
+                                The Future of Farming, <br /> Smart Irrigation Solutions
+                            </p>
+                            {/* Dynamic Date 2 */}
+                            <span className="text-[#EEC044] text-sm">
+                                {loading ? "Loading..." : formatDate(footerData?.Date)}
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                {/* Box 4: Contact  */}
+                {/* Box 4: Contact (DYNAMIC DATA) */}
                 <div>
-                    <h2 className="text-xl text-left  font-bold mb-2 relative pb-2">
+                    <h2 className="text-xl text-left font-bold mb-2 relative pb-2">
                         Contact
                         <span className="absolute bottom-0 left-0 w-12 h-1 bg-[#4BAF47]"></span>
                     </h2>
                     <div className="mt-2 space-y-4 text-[#A5A49A]">
+
+                        {/* Number */}
                         <div className="flex flex-row gap-4">
-                            <img src="Images/call.png" alt=""  className="h-4 w-4" />
+                            <img src="Images/call.png" alt="call" className="h-4 w-4" />
                             <p className="flex items-center gap-3">
-                                <span>666 888 0000</span>
+                                <span>{loading ? "Loading..." : footerData?.Number}</span>
                             </p>
                         </div>
 
+                        {/* Email */}
                         <div className="flex flex-row gap-4 ">
-                            <img src="/Images/email.png" alt="" className="h-4 w-4 pt-1" />
+                            <img src="/Images/email.png" alt="email" className="h-4 w-4 pt-1" />
                             <p className="flex items-center gap-3">
-                                <span>needhelp@company.com</span>
+                                <span>{loading ? "Loading..." : footerData?.Email}</span>
                             </p>
                         </div>
 
+                        {/* Address */}
                         <div className="flex flex-row gap-4">
-                            <img src="/Images/location.png" alt="" className="h-5 w-4" />
+                            <img src="/Images/location.png" alt="location" className="h-5 w-4" />
                             <p className="flex items-center gap-3 text-left">
-                                <span>80 broklyn golden street line <br />
-                                    New York, USA</span>
+                                <span className="whitespace-pre-line">
+                                    {loading ? "Loading..." : footerData?.Address}
+                                </span>
                             </p>
                         </div>
 
-                        {/* e-mail msg */}
+                        {/* Newsletter Input */}
                         <div className="flex mt-6 overflow-hidden rounded-xl">
                             <input
                                 type="email"
@@ -94,15 +144,12 @@ export default function Footer() {
                                 className="bg-white px-4 py-3 text-black w-full outline-none"
                             />
                             <button className="bg-[#4BAF47] px-4 py-3 hover:bg-[#3e8e3a] transition-colors">
-                                <img src="/Images/msg.png" alt="" className="h-4 w-4"/>
+                                <img src="/Images/msg.png" alt="send" className="h-4 w-4" />
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </footer>
-
     );
 }
-
