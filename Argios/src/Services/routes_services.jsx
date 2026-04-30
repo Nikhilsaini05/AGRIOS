@@ -1,6 +1,7 @@
 import { Navigate } from "react-router";
 import { UserData } from "../Controllers/AuthController"
 import { Route } from "lucide-react";
+import Settings from "../Views/Admin/Settings/Settings";
 
 export const RouteServices = {
     home : "/",
@@ -12,7 +13,9 @@ export const RouteServices = {
     shop: "/shop",
     contact: "/contact",
     admin: "/Admin",
-    adminDashboard: "/dashboard"
+    adminDashboard: "/dashboard",
+    settings: "settings",
+    adminServies: "adminServices"
 }
 
 
@@ -37,3 +40,12 @@ export function PublicRoute({children}){
     }
     return children;
 }
+
+// export default SettingsRoute({children}){
+//     const {user} = UserData();
+
+//     if(!user){
+//         return <Navigate to={RouteServices.settings} replace></Navigate>
+//     }
+//     return children;
+// }

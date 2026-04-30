@@ -43,12 +43,12 @@ export default function LoginPage() {
             }}>
             <main className="py-28 flex justify-center items-center flex-row">
 
-                <div className="bg-[#FFFFFF5D]  w-[300px] h-[400px] rounded-l-xl py-28">
+                <div className="bg-[#FFFFFF5D]  w-75 h-100 rounded-l-xl py-28">
                     <h1 className="text-[30px] font-semibold text-white mb-4">Welcome Admin!</h1>
                     <p className="text-[16px] text-white">Manage products, orders, and <br /> customers from your admin panel.</p>
                 </div>
 
-                <form onSubmit={handleLogin} className="bg-[#FFFFFF30] px-10 py-4 w-[600px] h-[400px] rounded-r-xl">
+                <form onSubmit={handleLogin} className="bg-[#FFFFFF30] px-10 py-4 w-150 h-100 rounded-r-xl">
                     <div className="flex flex-col gap-4 ">
                         <h1 className="text-[40px] font-bold">Sign in</h1>
                         <div className="bg-[#FFFFFF] w-full text-[#7D7D7D] text-[20px] text-left  rounded-3xl px-8 py-4">

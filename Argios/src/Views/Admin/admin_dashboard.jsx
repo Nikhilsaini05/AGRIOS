@@ -2,6 +2,9 @@ import { IndianRupee } from "lucide-react"
 import Admin_navbar from "./Admin_navbar"
 import Sidebar from "./sidebar"
 
+import { LayoutDashboard, Image, Settings2, MapPin, Key, Share2, Contact } from 'lucide-react';
+
+
 export default function AdminDashboard() {
     const orders = [
         { id: "MS-0001", customer: "Aman Sharma", product: "Banana", status: "Delivered", amount: "140.00" },
@@ -29,18 +32,9 @@ export default function AdminDashboard() {
 
 
     return (
-        <div className="flex min-h-screen bg-[#F7F2EC] ">
-
-            {/* Sidebar */}
-            <div className="w-[300px] shrink-0">
-                <Sidebar />
-            </div>
-            {/* Admin bar */}
-            <div className="flex-1 flex flex-col">
-                <Admin_navbar />
-
+            <>
                 {/* dashboard cards  */}
-                <main className="p-4 border-l-3 border-[#5F0D24]">
+                <main className="p-4 border-l-3 border-[#5F0D24] bg-[#F7F2EC]">
                     <h1 className="text-2xl font-bold">Welcome Back, Admin</h1>
                     <p>Here's what's happening with Agrios today.</p>
 
@@ -121,7 +115,7 @@ export default function AdminDashboard() {
                             </div>
 
                         {/* Inventory Alerts  */}
-                            <div className="bg-[#F2E4D8] p-6 rounded-[30px] w-full lg:w-[350px] shadow-sm">
+                            <div className="bg-[#F2E4D8] p-6 rounded-[30px] w-full lg:w-87 shadow-sm">
                                 <h3 className="font-bold text-[16px] mb-6">Inventory Alerts</h3>
                                 <div className="flex flex-col gap-4">
                                     {inventory.map((item, index) => (
@@ -143,7 +137,8 @@ export default function AdminDashboard() {
                         </div>
                 </main>
 
-            </div>
-        </div>
+       
+       </>
     )
-}
+
+};

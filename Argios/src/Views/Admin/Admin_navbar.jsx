@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Admin_navbar() {
     return (<>
-<section className='w-full h-[80px] bg-[#F7F2EC] px-8 flex items-center border-b border-[#F2E4D8] border-l-[3px] border-l-[#5F0D24]'>            <main className='w-full flex justify-between items-center top-0 '>
+<section className='w-full h-20 bg-[#F7F2EC] px-8 flex items-center border-b border-[#F2E4D8] border-l-[2px] border-l-[#5F0D24]'>            <main className='w-full flex justify-between items-center top-0 '>
                 
                 {/* Left Side: Search Bar */}
                 <div className='w-1/3'>
