@@ -1,160 +1,134 @@
 import React, { useState } from 'react';
-import { Plus, X, Upload, FolderTree } from 'lucide-react';
+import { Plus, X, Upload } from 'lucide-react';
 
 export default function Add_products() {
-    const [inventory, setInventory] = useState({});
+    const [categories, setCategories] = useState([]);
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [formData, setFormData] = useState({ 
-        categoryName: '', 
-        productName: '', 
-        preview: '' 
-    });
+    const [formData, setFormData] = useState({ name: '', image: null, preview: '' });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const { categoryName, productName, preview } = formData;
-
-        if (!categoryName || !productName || !preview) {
-            return alert("Please provide Category, Product Name, and Image");
-        }
-
-        const newProduct = {
-            id: Date.now(),
-            name: productName,
-            image: preview
-        };
-
-        setInventory(prev => {
-            const currentCategoryProducts = prev[categoryName] || [];
-            return { 
-                ...prev, 
-                [categoryName]: [...currentCategoryProducts, newProduct] 
-            };
-        });
-
-        setIsFormOpen(false);
-        setFormData({ categoryName: '', productName: '', preview: '' });
+    // Handle Input Changes
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, name: e.target.value });
     };
 
+    // Handle Image Upload
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        if (file) setFormData({ ...formData, preview: URL.createObjectURL(file) });
+        if (file) {
+            setFormData({
+                ...formData,
+                image: file,
+                preview: URL.createObjectURL(file) 
+            });
+        }
+    };
+
+    // Handle Form Submit (CREATE)
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!formData.name || !formData.preview) return alert("Please add name and image");
+
+        const newCategory = {
+            id: Date.now(),
+            name: formData.name,
+            image: formData.preview
+        };
+
+        setCategories([...categories, newCategory]);
+        setIsFormOpen(false); // Close form
+        setFormData({ name: '', image: null, preview: '' }); // Reset form
+    };
+
+    // Handle Delete (DELETE)
+    const deleteCategory = (id) => {
+        setCategories(categories.filter(cat => cat.id !== id));
     };
 
     return (
-        <div className="p-4 bg-[#F7F2EC] min-h-screen">
-            {/* Top Bar */}
-            <div className='flex justify-between mx-8 py-4 items-center border-b border-[#F2E4D8]'>
-                <div>
-                    <h1 className='text-xl font-bold text-[#5F0D24] text-left'>Inventory Manager</h1>
-                    <p className='text-xs text-gray-500'>Organize your products in categories</p>
-                </div>
+        <div className="p-4">
+            {/* Header Section */}
+            <div className='flex justify-between mx-8 py-3 items-center border-b border-[#F2E4D8]'>
+                <h1 className='text-[16px] font-bold'>Categories</h1>
                 <button 
                     onClick={() => setIsFormOpen(true)}
-                    className='bg-[#5F0D24] text-[15px] py-2 px-5 rounded-full text-white flex items-center gap-2 hover:opacity-90 transition-all'
+                    className='bg-[#5F0D24] text-[16px] py-1.5 px-4 rounded-3xl text-white flex items-center gap-2 hover:bg-[#4a0a1c] transition-colors'
                 >
-                    <Plus size={18} /> Add Category & Product
+                    <Plus size={18} /> add Category
                 </button>
             </div>
 
-            {/* Modal Form */}
+            {/* Modal / Form Overlay */}
             {isFormOpen && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-                    <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-[#5F0D24]">New Entry</h2>
-                            <X className="cursor-pointer text-gray-400" onClick={() => setIsFormOpen(false)} />
-                        </div>
+                <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+                    <div className="bg-[#F7F2EC] p-8 rounded-2xl w-full max-w-md shadow-xl relative">
+                        <button 
+                            onClick={() => setIsFormOpen(false)}
+                            className="absolute top-4 right-4 text-gray-500 hover:text-black"
+                        >
+                            <X size={24} />
+                        </button>
                         
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                            <div className="flex flex-col gap-1">
-                                <label className="text-xs font-bold text-gray-600 uppercase">Category</label>
+                        <h2 className="text-xl font-bold mb-6 text-[#5F0D24]">Create New Category</h2>
+                        
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Category Name</label>
                                 <input 
-                                    type="text" placeholder="e.g., Enter Product Type"
-                                    className="p-3 rounded-xl border border-[#F2E4D8] bg-[#F7F2EC]/30 outline-none focus:ring-1 focus:ring-[#5F0D24]"
-                                    value={formData.categoryName}
-                                    onChange={(e) => setFormData({...formData, categoryName: e.target.value})}
+                                    type="text" 
+                                    placeholder="e.g. Organic Fruits"
+                                    className="w-full p-3 rounded-lg border border-[#F2E4D8] outline-none focus:border-[#5F0D24]"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
                                 />
                             </div>
 
-                            <div className="flex flex-col gap-1">
-                                <label className="text-xs font-bold text-gray-600 uppercase">Product Name</label>
-                                <input 
-                                    type="text" placeholder="e.g., Enter Product Name"
-                                    className="p-3 rounded-xl border border-[#F2E4D8] bg-[#F7F2EC]/30 outline-none focus:ring-1 focus:ring-[#5F0D24]"
-                                    value={formData.productName}
-                                    onChange={(e) => setFormData({...formData, productName: e.target.value})}
-                                />
-                            </div>
-
-                            <div className="flex flex-col gap-1">
-                                <label className="text-xs font-bold text-gray-600 uppercase">Product Image</label>
-                                <div className="border-2 border-dashed border-[#F2E4D8] rounded-xl p-6 text-center relative hover:bg-gray-50 transition-all">
-                                    <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleImageChange} />
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Product Media</label>
+                                <div className="border-2 border-dashed border-[#F2E4D8] rounded-lg p-6 flex flex-col items-center justify-center bg-white cursor-pointer hover:bg-gray-50 transition-all relative">
+                                    <input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        className="absolute inset-0 opacity-0 cursor-pointer" 
+                                        onChange={handleImageChange}
+                                    />
                                     {formData.preview ? (
-                                        <img src={formData.preview} className="h-24 mx-auto rounded-lg shadow-sm" alt="Preview" />
+                                        <img src={formData.preview} alt="Preview" className="h-32 w-full object-contain" />
                                     ) : (
-                                        <div className="flex flex-col items-center gap-2">
-                                            <Upload className="text-[#5F0D24] opacity-50" />
-                                            <span className="text-xs text-gray-400">Click to upload image</span>
-                                        </div>
+                                        <>
+                                            <Upload className="text-[#5F0D24] mb-2" />
+                                            <span className="text-xs text-gray-500">Upload high-quality images</span>
+                                        </>
                                     )}
                                 </div>
                             </div>
 
-                            <button type="submit" className="w-full py-3 bg-[#5F0D24] text-white rounded-xl cursor-pointer font-bold shadow-lg mt-2">
-                                Save to Inventory
+                            <button 
+                                type="submit"
+                                className="bg-[#5F0D24] text-white py-3 rounded-lg font-bold mt-2"
+                            >
+                                Save Category
                             </button>
                         </form>
                     </div>
                 </div>
             )}
 
-            {/* Dynamic Rows Section */}
-            <div className="mx-8 mt-6 space-y-4">
-                {Object.keys(inventory).length === 0 ? (
-                    <div className="text-center py-20 opacity-30">
-                        <FolderTree size={48} className="mx-auto mb-4" />
-                        <p className="text-[16px]">No categories created yet.</p>
-                    </div>
-                ) : (
-                    Object.keys(inventory).map((category) => (
-                        <div key={category} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-                            <div className="flex items-center justify-between mb-4 border-l-4 border-[#5F0D24] pl-4">
-                                <h2 className="text-lg font-extrabold text-[#5F0D24] uppercase tracking-wider">
-                                    {category} 
-                                    <span className="ml-3 text-xs font-normal text-gray-400 bg-white px-2 py-1 rounded-full border border-[#F2E4D8]">
-                                        {inventory[category].length} Items
-                                    </span>
-                                </h2>
-                            </div>
-                            
-                            {/* The row of products for this category */}
-                            <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide">
-                                {inventory[category].map((product) => (
-                                    <div key={product.id} className="min-w-50 bg-white p-4 rounded-2xl shadow-sm border border-[#F2E4D8] hover:shadow-md transition-shadow">
-                                        <div className="h-40 w-full overflow-hidden rounded-xl mb-3 bg-[#F7F2EC]">
-                                            <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-                                        </div>
-                                        <p className="text-center font-bold text-gray-800">{product.name}</p>
-                                    </div>
-                                ))}
-                                
-                                {/* Quick-add button at end of row */}
-                                <button 
-                                    onClick={() => {
-                                        setFormData({...formData, categoryName: category});
-                                        setIsFormOpen(true);
-                                    }}
-                                    className="min-w-25 border-2 border-dashed border-[#F2E4D8] rounded-2xl flex flex-col items-center justify-center text-gray-300 hover:text-[#5F0D24] hover:border-[#5F0D24] transition-all"
-                                >
-                                    <Plus size={24} />
-                                    <span className="text-[10px] font-bold uppercase mt-1">Add to row</span>
-                                </button>
-                            </div>
+            {/* Display Section (The result) */}
+            <div className="mx-8 mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                {categories.map((cat) => (
+                    <div key={cat.id} className="bg-white p-4 rounded-xl shadow-sm border border-[#F2E4D8] group relative">
+                        <button 
+                            onClick={() => deleteCategory(cat.id)}
+                            className="absolute top-2 right-2 p-1 bg-red-100 text-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                            <X size={14} />
+                        </button>
+                        <div className="h-32 w-full bg-[#F7F2EC] rounded-lg mb-3 overflow-hidden">
+                            <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
                         </div>
-                    ))
-                )}
+                        <h3 className="text-center font-semibold text-[#5F0D24]">{cat.name}</h3>
+                    </div>
+                ))}
             </div>
         </div>
     );

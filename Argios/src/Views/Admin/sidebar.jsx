@@ -10,12 +10,16 @@ export default function Sidebar() {
     const baseClasses = "flex items-center gap-4 p-4 text-[16px] transition-all duration-200 cursor-pointer font-medium rounded-lg";
     
     const getNavStyle = (path) => {
-        const isActive = location.pathname.includes(path);
+
+        const patharray = location.pathname.split("/");        
+        const lastPosition = patharray[patharray.length-1];
+        const isActive = path.includes(lastPosition);
         
         return isActive 
             ? `${baseClasses} bg-[#5F0D24] text-white shadow-md` 
             : `${baseClasses} bg-[#F2E4D8] text-[#000000] hover:bg-[#E5D1C0]`; 
     };
+    
 
     return (
         <section className='w-75 h-screen bg-[#F7F2EC] border-r border-[#F2E4D8]'>
