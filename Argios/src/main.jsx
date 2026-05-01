@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AppDataProvider } from './Controllers/DataController/ProjectCardData.jsx'
 import { UserLoginData } from './Controllers/AuthController.jsx'
+import { CategoryDataProvider } from './Controllers/DataController/Add_Category.jsx'
 // import {BrowserRouter} from "react-router-dom"
 
 createRoot(document.getElementById('root')).render(
@@ -13,8 +14,10 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <AppDataProvider>
         <UserLoginData>
+          <CategoryDataProvider>
 
-          <App />
+            <App />
+          </CategoryDataProvider>
         </UserLoginData>
 
         {/* </UserLoginData> */}
